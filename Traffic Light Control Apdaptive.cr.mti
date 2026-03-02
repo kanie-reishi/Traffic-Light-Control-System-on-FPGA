@@ -1,0 +1,66 @@
+{H:/Projects/Traffic Light Control System on FPGA/tb/tb_uart_camera_rx.v} {1 {vlog -work work {H:/Projects/Traffic Light Control System on FPGA/tb/tb_uart_camera_rx.v}
+Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+-- Compiling module tb_uart_camera_rx
+
+Top level modules:
+	tb_uart_camera_rx
+
+} {} {}} {H:/Projects/Traffic Light Control System on FPGA/rtl/clock_divider.v} {1 {vlog -work work {H:/Projects/Traffic Light Control System on FPGA/rtl/clock_divider.v}
+Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+-- Compiling module clock_divider
+
+Top level modules:
+	clock_divider
+
+} {} {}} {H:/Projects/Traffic Light Control System on FPGA/rtl/traffic_controller_core.v} {1 {vlog -work work {H:/Projects/Traffic Light Control System on FPGA/rtl/traffic_controller_core.v}
+Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+-- Compiling module traffic_controller_core
+
+Top level modules:
+	traffic_controller_core
+
+} {} {}} {H:/Projects/Traffic Light Control System on FPGA/rtl/adaptive_control_core.v} {1 {vlog -work work {H:/Projects/Traffic Light Control System on FPGA/rtl/adaptive_control_core.v}
+Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+-- Compiling module adaptive_timing_logic
+
+Top level modules:
+	adaptive_timing_logic
+
+} {} {}} {H:/Projects/Traffic Light Control System on FPGA/tb/tb_traffic_system.v} {1 {vlog -work work {H:/Projects/Traffic Light Control System on FPGA/tb/tb_traffic_system.v}
+Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+-- Compiling module tb_traffic_system
+
+Top level modules:
+	tb_traffic_system
+
+} {} {}} {H:/Projects/Traffic Light Control System on FPGA/rtl/fixed_timing_logic.v} {1 {vlog -work work {H:/Projects/Traffic Light Control System on FPGA/rtl/fixed_timing_logic.v}
+Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+-- Compiling module fixed_timing_logic
+
+Top level modules:
+	fixed_timing_logic
+
+} {} {}} {H:/Projects/Traffic Light Control System on FPGA/tb/tb_adaptive_traffic_system.v} {1 {vlog -work work {H:/Projects/Traffic Light Control System on FPGA/tb/tb_adaptive_traffic_system.v}
+Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+-- Compiling module clock_divider
+-- Compiling module tb_traffic_system_top
+
+Top level modules:
+	clock_divider
+	tb_traffic_system_top
+
+} {} {}} {H:/Projects/Traffic Light Control System on FPGA/rtl/traffic_system_top.v} {1 {vlog -work work {H:/Projects/Traffic Light Control System on FPGA/rtl/traffic_system_top.v}
+Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+-- Compiling module traffic_system_top
+
+Top level modules:
+	traffic_system_top
+
+} {} {}} {H:/Projects/Traffic Light Control System on FPGA/rtl/uart_camera_rx.v} {1 {vlog -work work {H:/Projects/Traffic Light Control System on FPGA/rtl/uart_camera_rx.v}
+Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+-- Compiling module uart_camera_rx
+
+Top level modules:
+	uart_camera_rx
+
+} {} {}}

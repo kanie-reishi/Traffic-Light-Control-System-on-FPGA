@@ -1,0 +1,176 @@
+m255
+K3
+13
+cModel Technology
+Z0 dH:\Projects\CNN (LeNet-5 for MNIST) on FPGA\model\verify_logic
+vadaptive_timing_logic
+Z1 !s100 lQ66HUi5B[:7lJSbUjHhh2
+Z2 ITB1@fJQDQjClJW9<VJG`m3
+Z3 VF]U5OZ7]ZBT3R52F<Q<0O3
+Z4 dH:\Projects\Traffic Light Control System on FPGA
+Z5 w1772155058
+Z6 8H:/Projects/Traffic Light Control System on FPGA/rtl/adaptive_control_core.v
+Z7 FH:/Projects/Traffic Light Control System on FPGA/rtl/adaptive_control_core.v
+L0 19
+Z8 OV;L;10.1d;51
+r1
+31
+Z9 !s90 -reportprogress|300|-work|work|H:/Projects/Traffic Light Control System on FPGA/rtl/adaptive_control_core.v|
+Z10 o-work work -O0
+Z11 !s108 1772410602.568000
+Z12 !s107 H:/Projects/Traffic Light Control System on FPGA/rtl/adaptive_control_core.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vclock_divider
+!i10b 1
+Z13 !s100 ?cUNR3B:DcNI7Ze<gNA=@2
+Z14 IHlYH5FzP]CoHJYc0bG:kR1
+Z15 V`OGW`OMkN@Hdld`ZYcBhO2
+R4
+Z16 w1772412985
+Z17 8H:/Projects/Traffic Light Control System on FPGA/tb/tb_adaptive_traffic_system.v
+Z18 FH:/Projects/Traffic Light Control System on FPGA/tb/tb_adaptive_traffic_system.v
+L0 61
+R8
+r1
+!s85 0
+31
+Z19 !s108 1772412992.932000
+Z20 !s107 H:/Projects/Traffic Light Control System on FPGA/tb/tb_adaptive_traffic_system.v|
+Z21 !s90 -reportprogress|300|-work|work|H:/Projects/Traffic Light Control System on FPGA/tb/tb_adaptive_traffic_system.v|
+!s101 -O0
+R10
+vfixed_timing_logic
+Z22 !s100 <Fg8<0T<V3f5iX0REYWW:1
+Z23 Ic<HYXdTQN?jFZ1XbAci=V3
+Z24 VfSaTT>0@UWEXYRF0EVKk61
+R4
+Z25 w1769738409
+Z26 8H:/Projects/Traffic Light Control System on FPGA/rtl/fixed_timing_logic.v
+Z27 FH:/Projects/Traffic Light Control System on FPGA/rtl/fixed_timing_logic.v
+L0 1
+R8
+r1
+31
+Z28 !s90 -reportprogress|300|-work|work|H:/Projects/Traffic Light Control System on FPGA/rtl/fixed_timing_logic.v|
+R10
+Z29 !s108 1772410602.689000
+Z30 !s107 H:/Projects/Traffic Light Control System on FPGA/rtl/fixed_timing_logic.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vtb_traffic_system
+Z31 !s100 T6G6dXk?ZPaKD;FT0P=4]2
+Z32 IP23=;9;zDR5lD8dO68E_M1
+Z33 V54HESHjKCmMaHToVLH^Y?3
+R4
+Z34 w1769739205
+Z35 8H:/Projects/Traffic Light Control System on FPGA/tb/tb_traffic_system.v
+Z36 FH:/Projects/Traffic Light Control System on FPGA/tb/tb_traffic_system.v
+L0 3
+R8
+r1
+31
+Z37 !s90 -reportprogress|300|-work|work|H:/Projects/Traffic Light Control System on FPGA/tb/tb_traffic_system.v|
+R10
+Z38 !s108 1772410602.857000
+Z39 !s107 H:/Projects/Traffic Light Control System on FPGA/tb/tb_traffic_system.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vtb_traffic_system_top
+!i10b 1
+!s100 ;^ESOTnCQFYk1<2FV55Aj2
+IAk@9PhLW3R@Tk[m>]Nil?1
+Z40 V4ah6b=DkN[PiEcQj;kI6>2
+R4
+R16
+R17
+R18
+L0 81
+R8
+r1
+!s85 0
+31
+R19
+R20
+R21
+!s101 -O0
+R10
+vtb_uart_camera_rx
+Z41 !s100 1nam0mj7dFhQKmSl[agDo1
+Z42 IgDfTb>?NzCh7ZSTXI`PV33
+Z43 VEI?Zk0[ZJAYO2i@4I;Wn62
+R4
+Z44 w1772161693
+Z45 8H:/Projects/Traffic Light Control System on FPGA/tb/tb_uart_camera_rx.v
+Z46 FH:/Projects/Traffic Light Control System on FPGA/tb/tb_uart_camera_rx.v
+L0 26
+R8
+r1
+31
+Z47 !s90 -reportprogress|300|-work|work|H:/Projects/Traffic Light Control System on FPGA/tb/tb_uart_camera_rx.v|
+R10
+Z48 !s108 1772410602.978000
+Z49 !s107 H:/Projects/Traffic Light Control System on FPGA/tb/tb_uart_camera_rx.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vtraffic_controller_core
+Z50 !s100 i=WBNbj8ILcV:>kJzF2b<0
+Z51 ISoFH5K2<C>K^VUkgVnXUX1
+Z52 V9ELk5PJgDzRI^f2Bc>:H`3
+R4
+Z53 w1769741275
+Z54 8H:/Projects/Traffic Light Control System on FPGA/rtl/traffic_controller_core.v
+Z55 FH:/Projects/Traffic Light Control System on FPGA/rtl/traffic_controller_core.v
+L0 12
+R8
+r1
+31
+Z56 !s90 -reportprogress|300|-work|work|H:/Projects/Traffic Light Control System on FPGA/rtl/traffic_controller_core.v|
+R10
+Z57 !s108 1772410602.747000
+Z58 !s107 H:/Projects/Traffic Light Control System on FPGA/rtl/traffic_controller_core.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vtraffic_system_top
+Z59 IB4?ASDLlmIm^L04GXP>ha2
+Z60 VbDI]I]<Zz32=ddkMBEnS72
+R4
+Z61 w1772410562
+Z62 8H:/Projects/Traffic Light Control System on FPGA/rtl/traffic_system_top.v
+Z63 FH:/Projects/Traffic Light Control System on FPGA/rtl/traffic_system_top.v
+L0 1
+R8
+r1
+31
+Z64 !s90 -reportprogress|300|-work|work|H:/Projects/Traffic Light Control System on FPGA/rtl/traffic_system_top.v|
+R10
+Z65 !s100 lbb0GaE_G<?EWY>>?jo=n3
+Z66 !s108 1772410602.805000
+Z67 !s107 H:/Projects/Traffic Light Control System on FPGA/rtl/traffic_system_top.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vuart_camera_rx
+Z68 !s100 F<8<NOMUg7mM1`LEPVYIj3
+Z69 I_cVeVknW8<l7<g<N5KdkV3
+Z70 VL7BjnJBRU94;2d?NA:Q^i1
+R4
+Z71 w1772161060
+Z72 8H:/Projects/Traffic Light Control System on FPGA/rtl/uart_camera_rx.v
+Z73 FH:/Projects/Traffic Light Control System on FPGA/rtl/uart_camera_rx.v
+L0 15
+R8
+r1
+31
+Z74 !s90 -reportprogress|300|-work|work|H:/Projects/Traffic Light Control System on FPGA/rtl/uart_camera_rx.v|
+R10
+Z75 !s108 1772410602.917000
+Z76 !s107 H:/Projects/Traffic Light Control System on FPGA/rtl/uart_camera_rx.v|
+!i10b 1
+!s85 0
+!s101 -O0

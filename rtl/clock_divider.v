@@ -15,12 +15,12 @@ module clock_divider #(
             counter  <= 0;
             tick_out <= 0;
         end else begin
+            tick_out <= 0;
             if (counter == FREQ - 1) begin
                 counter  <= 0;
                 tick_out <= 1; // Bật tín hiệu tick
             end else begin
                 counter  <= counter + 1;
-                tick_out <= 0; // Tắt ngay lập tức
             end
         end
     end
