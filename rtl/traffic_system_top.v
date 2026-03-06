@@ -1,4 +1,6 @@
-module traffic_system_top (
+module traffic_system_top #(
+    parameter CLK_FREQ = 100_000_000 // 100MHz clock frequency;
+)(
     input  wire       clk,
     input  wire       rst_n,
     input  wire       emergency_sw,
@@ -22,10 +24,13 @@ module traffic_system_top (
     // Request-pending indicator LEDs (controlled by ped_request_handler)
     // HIGH = request registered and waiting. Goes LOW when walk phase starts.
     output wire       ped_ns_req_led_o,
-    output wire       ped_ew_req_led_o
+    output wire       ped_ew_req_led_o,
+
+    // Duration display outputs
+    output wire [5:0] timer_duration_o
 );
     wire tick_1hz;
-    clock_divider #(.FREQ(50_000_000)) clk_div_inst (
+    clock_divider #(.FREQ(CLK_FREQ)) clk_div_inst (
         .clk(clk), .rst_n(rst_n), .tick_out(tick_1hz)
     );
 
@@ -34,7 +39,7 @@ module traffic_system_top (
     wire ped_ns_req, ped_ew_req;
 
     ped_request_handler #(
-        .CLK_FREQ   (50_000_000),
+        .CLK_FREQ   (CLK_FREQ),
         .DEBOUNCE_MS(20)
     ) ped_handler_inst (
         .clk             (clk),
@@ -74,4 +79,6 @@ module traffic_system_top (
         .ped_ns_walk_o  (ped_ns_led),
         .ped_ew_walk_o  (ped_ew_led)
     );
+    // Output timer duration for display/debugging
+    assign timer_duration_o = timer_duration;
 endmodule

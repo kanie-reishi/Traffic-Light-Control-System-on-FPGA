@@ -1,4 +1,6 @@
-module traffic_system_rx (
+module traffic_system_rx #(
+    parameter CLK_FREQ = 100_000_000 // 100MHz clock frequency
+)(
     input  wire       clk,
     input  wire       rst_n,
     input  wire       emergency_sw,
@@ -13,7 +15,7 @@ module traffic_system_rx (
     wire       camera_valid;
     // NEW: UART receiver — decodes Camera AI packets
     uart_camera_rx #(
-        .CLK_FREQ  (50_000_000),
+        .CLK_FREQ  (CLK_FREQ),
         .BAUD_RATE (115_200),
         .TIMEOUT_MS(500)
     ) uart_inst (
@@ -24,7 +26,9 @@ module traffic_system_rx (
         .ew_density_o  (ew_density),
         .camera_valid_o(camera_valid)
     );
-    traffic_system_top top_inst (
+    traffic_system_top #(
+        .CLK_FREQ(CLK_FREQ)
+    )top_inst (
         .clk(clk), .rst_n(rst_n), .emergency_sw(emergency_sw),
         .ns_density(ns_density), .ew_density(ew_density), .camera_valid(camera_valid),
         .ns_leds(ns_leds), .ew_leds(ew_leds),

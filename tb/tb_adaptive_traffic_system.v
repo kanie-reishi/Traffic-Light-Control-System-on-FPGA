@@ -167,7 +167,8 @@ module tb_traffic_system_top;
         .ped_ns_led    (ped_ns_led),
         .ped_ew_led    (ped_ew_led),
         .ped_ns_req_led_o(ped_ns_req_led),   // PORT-2
-        .ped_ew_req_led_o(ped_ew_req_led)    // PORT-2
+        .ped_ew_req_led_o(ped_ew_req_led),   // PORT-2
+        .timer_duration_o(timer_duration_o)
     );
 
     // =========================================================================
