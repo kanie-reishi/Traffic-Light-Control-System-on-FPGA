@@ -30,7 +30,7 @@ module traffic_system_rx #(
         .CLK_FREQ(CLK_FREQ)
     )top_inst (
         .clk(clk), .rst_n(rst_n), .emergency_sw(emergency_sw),
-        .ns_density(ns_density), .ew_density(ew_density), .camera_valid(camera_valid),
+        .ns_density_i(ns_density), .ew_density_i(ew_density), .camera_valid_i(camera_valid),
         .ns_leds(ns_leds), .ew_leds(ew_leds),
         .ped_ns_led(ped_ns_led), .ped_ew_led(ped_ew_led)
     );

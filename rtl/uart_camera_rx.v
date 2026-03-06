@@ -126,7 +126,7 @@ module uart_camera_rx #(
                         if (tick_cnt == 15) begin
                             // Sample at tick 15 = centre of data bit
                             tick_cnt             <= 0;
-                            shift_reg[bit_idx]   <= rx;  // LSB first
+                            shift_reg <= {rx, shift_reg[7:1]};  // LSB first
                             if (bit_idx == 7) begin
                                 rx_state <= RX_STOP;
                             end else begin

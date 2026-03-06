@@ -8,7 +8,7 @@ module clock_divider #(
 
     // Tính toán số bit cần thiết để đếm tới FREQ
     // log2(50,000,000) ~ 25.5 -> Cần 26 bit
-    reg [25:0] counter;
+    reg [26:0] counter;
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
