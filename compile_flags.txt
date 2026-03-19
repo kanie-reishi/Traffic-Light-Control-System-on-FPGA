@@ -1,0 +1,11 @@
+-xc++
+-std=c++17
+-D__GCC_MAX_ALIGN_T
+-target
+x86_64-w64-mingw32
+-IH:/New folder/ucrt64/include/c++/15.2.0
+-IH:/New folder/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32
+-IH:/New folder/ucrt64/include/c++/15.2.0/backward
+-IH:/New folder/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include
+-IH:/New folder/ucrt64/include
+-IH:/New folder/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include-fixed

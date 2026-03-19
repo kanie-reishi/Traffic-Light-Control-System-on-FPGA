@@ -1,0 +1,37 @@
+# Vivado Project Directory
+Vivado/
+*.jou
+*.log
+*.str
+*.pb
+*.wdf
+*.zip
+
+# Simulation / ModelSim
+*.vcd
+*.vvp
+*.wlf
+work/
+*.cr.mti
+*.mpf
+modelsim.ini
+
+# Compiled binaries
+sw/*.exe
+*.o
+*.out
+
+# IDE and OS files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Credentials and Secrets
+*.env
+*.pem
+*.key
+*.p12
+credentials.json
+secrets.txt
+secret.key
+config.local.json
