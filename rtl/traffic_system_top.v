@@ -42,7 +42,9 @@
 //   seg_o[6:0], an_o[3:0]        — 7-segment display interface
 // ============================================================================
 module traffic_system_top #(
-    parameter CLK_FREQ = 100_000_000  // 100 MHz clock frequency
+    parameter CLK_FREQ = 100_000_000,  // 100 MHz clock frequency
+    parameter BUZZER_TONE_LIMIT  = CLK_FREQ / 2000,
+    parameter BUZZER_PULSE_LIMIT = CLK_FREQ / 4
 )(
     input  wire       clk,
     input  wire       rst_n,
@@ -57,6 +59,11 @@ module traffic_system_top #(
     input  wire       ped_btn_ns_i,
     input  wire       ped_btn_ew_i,
 
+    // Loop sensor and mode select inputs
+    input  wire       sensor_ns_i,
+    input  wire       sensor_ew_i,
+    input  wire       mode_select_i,
+
     // Vehicle traffic light outputs
     output wire [2:0] ns_leds,       // {Red, Yellow, Green}
     output wire [2:0] ew_leds,       // {Red, Yellow, Green}
@@ -69,12 +76,18 @@ module traffic_system_top #(
     output wire       ped_ns_req_led_o,
     output wire       ped_ew_req_led_o,
 
+    // Audible crosswalk buzzer output
+    output wire       buzzer_o,
+
     // Debug / expansion port
     output wire [5:0] timer_duration_o,
 
     // 7-segment display interface (active-low, Basys 3)
     output wire [6:0] seg_o,
-    output wire [3:0] an_o
+    output wire [3:0] an_o,
+
+    // UART transmitter output
+    output wire       uart_tx_o
 );
 
     // =========================================================================
@@ -124,6 +137,8 @@ module traffic_system_top #(
     //    Takes density data + pedestrian requests and computes optimal
     //    durations for each upcoming green/yellow phase.
     // =========================================================================
+    wire reload_en; // Internal reload signal linking timing logic to core
+
     adaptive_timing_logic timing_inst (
         .clk            (clk),
         .rst_n          (rst_n),
@@ -135,7 +150,12 @@ module traffic_system_top #(
         .camera_valid_i (camera_valid_i),
         .ped_ns_req_i   (ped_ns_req),
         .ped_ew_req_i   (ped_ew_req),
-        .duration_o     (timer_duration)
+        .mode_select_i  (mode_select_i),
+        .sensor_ns_i    (sensor_ns_i),
+        .sensor_ew_i    (sensor_ew_i),
+        .timer_count_i  (timer_count),
+        .duration_o     (timer_duration),
+        .reload_en_o    (reload_en)
     );
 
     // =========================================================================
@@ -148,6 +168,7 @@ module traffic_system_top #(
         .rst_n          (rst_n),
         .emergency_mode (emergency_sw),
         .tick_1hz       (tick_1hz),
+        .reload_en      (reload_en),
         .req_duration_i (timer_duration),
         .current_state_o(current_state),
         .next_state_o   (next_state_lookahead),
@@ -208,6 +229,80 @@ module traffic_system_top #(
         .ew_countdown_i(ew_countdown),
         .seg_o         (seg_o),
         .an_o          (an_o)
+    );
+
+    // =========================================================================
+    // 8. Crosswalk Buzzer Tone & Pulsing Signal Generator
+    //    Generates a 1 kHz tone pulsing at 2 Hz (250ms ON, 250ms OFF)
+    //    when either pedestrian crossing walk signal is active.
+    // =========================================================================
+
+    reg [15:0] buzzer_tone_cnt;
+    reg        buzzer_tone_sig;
+
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            buzzer_tone_cnt <= 0;
+            buzzer_tone_sig <= 1'b0;
+        end else begin
+            if (buzzer_tone_cnt >= BUZZER_TONE_LIMIT - 1) begin
+                buzzer_tone_cnt <= 0;
+                buzzer_tone_sig <= ~buzzer_tone_sig;
+            end else begin
+                buzzer_tone_cnt <= buzzer_tone_cnt + 1;
+            end
+        end
+    end
+
+    reg [24:0] buzzer_pulse_cnt;
+    reg        buzzer_pulse_sig;
+
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            buzzer_pulse_cnt <= 0;
+            buzzer_pulse_sig <= 1'b0;
+        end else begin
+            if (buzzer_pulse_cnt >= BUZZER_PULSE_LIMIT - 1) begin
+                buzzer_pulse_cnt <= 0;
+                buzzer_pulse_sig <= ~buzzer_pulse_sig;
+            end else begin
+                buzzer_pulse_cnt <= buzzer_pulse_cnt + 1;
+            end
+        end
+    end
+
+    assign buzzer_o = (ped_ns_led || ped_ew_led) ? (buzzer_tone_sig && buzzer_pulse_sig) : 1'b0;
+
+    // =========================================================================
+    // 9. UART Telemetry Transmitter
+    //    Transmits status packets periodically (every 1s) or on state changes.
+    // =========================================================================
+    reg [4:0] prev_state_reg;
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n)
+            prev_state_reg <= S_NS_GREEN;
+        else
+            prev_state_reg <= current_state;
+    end
+
+    wire state_changed = (current_state != prev_state_reg);
+    wire tx_trigger    = tick_1hz || state_changed;
+
+    uart_camera_tx #(
+        .CLK_FREQ (CLK_FREQ),
+        .BAUD_RATE(115_200)
+    ) uart_tx_inst (
+        .clk            (clk),
+        .rst_n          (rst_n),
+        .tx_trigger     (tx_trigger),
+        .current_state_i(current_state),
+        .emergency_sw_i (emergency_sw),
+        .mode_select_i  (mode_select_i),
+        .timer_count_i  (timer_count),
+        .ns_density_i   (ns_density_i),
+        .ew_density_i   (ew_density_i),
+        .uart_tx_o      (uart_tx_o),
+        .tx_busy_o      () // Unused
     );
 
 endmodule

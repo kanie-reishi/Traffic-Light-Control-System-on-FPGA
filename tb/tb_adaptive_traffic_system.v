@@ -71,22 +71,6 @@
 // If you see a "module redefinition" warning, add +define+NO_CD_STUB to your
 // compile flags and guard this block with `ifndef NO_CD_STUB.
 // =============================================================================
-module clock_divider #(parameter FREQ = 50_000_000) (
-    input  wire clk,
-    input  wire rst_n,
-    output reg  tick_out
-);
-    localparam DIV = 10;
-    integer cnt;
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin cnt <= 0; tick_out <= 0; end
-        else begin
-            tick_out <= 0;
-            if (cnt == DIV - 1) begin cnt <= 0; tick_out <= 1; end
-            else cnt <= cnt + 1;
-        end
-    end
-endmodule
 
 // =============================================================================
 // Testbench
@@ -147,9 +131,9 @@ module tb_traffic_system_top;
     // re-introduce timing risk.
 
     // DEBOUNCE_CYCLES_TB: mirrors ped_request_handler's internal calculation.
-    // = (CLK_FREQ / 1000) * DEBOUNCE_MS = (50_000_000 / 1000) * 20 = 1_000_000
+    // = (CLK_FREQ / 1000) * DEBOUNCE_MS = (100_000_000 / 1000) * 20 = 2_000_000
     // Used by press_btn_ns / press_btn_ew to force the counter to threshold.
-    localparam DEBOUNCE_CYCLES_TB = (50_000_000 / 1000) * 20;  // 1_000_000
+    localparam DEBOUNCE_CYCLES_TB = (100_000_000 / 1000) * 20;  // 2_000_000
     // =========================================================================
     // DUT instantiation
     // =========================================================================
@@ -1002,3 +986,27 @@ module tb_traffic_system_top;
     end
 
 endmodule
+
+// =============================================================================
+// clock_divider STUB (linker-only — not used at runtime)
+// =============================================================================
+// Moves to the end of the file so run_sim.py detects tb_traffic_system_top first.
+// =============================================================================
+`ifndef NO_CD_STUB
+module clock_divider #(parameter FREQ = 50_000_000) (
+    input  wire clk,
+    input  wire rst_n,
+    output reg  tick_out
+);
+    localparam DIV = 10;
+    integer cnt;
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin cnt <= 0; tick_out <= 0; end
+        else begin
+            tick_out <= 0;
+            if (cnt == DIV - 1) begin cnt <= 0; tick_out <= 1; end
+            else cnt <= cnt + 1;
+        end
+    end
+endmodule
+`endif

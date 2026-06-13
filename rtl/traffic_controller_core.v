@@ -70,6 +70,8 @@ module traffic_controller_core (
     input  wire       emergency_mode,
     input  wire       tick_1hz,
 
+    input  wire       reload_en,
+
     // Duration interface (from adaptive_timing_logic)
     input  wire [5:0] req_duration_i,
 
@@ -114,6 +116,7 @@ module traffic_controller_core (
     //   per tick_1hz pulse. It reloads when:
     //     a) The FSM transitions to a new state (current_state != next_state)
     //     b) The first cycle after reset (first_cycle flag)
+    //     c) The timing logic requests a reload (reload_en is asserted)
     //   In S_ERROR, the timer is held at 0 (no countdown during emergency).
     // =========================================================================
     always @(posedge clk or negedge rst_n) begin
@@ -126,8 +129,8 @@ module traffic_controller_core (
             if (first_cycle) begin
                 timer       <= req_duration_i;  // Force-load on first cycle
                 first_cycle <= 0;
-            end else if (current_state != next_state) begin
-                timer       <= req_duration_i;  // Reload on state transition
+            end else if (current_state != next_state || reload_en) begin
+                timer       <= req_duration_i;  // Reload on state transition or reload request
             end else if (tick_1hz && timer > 0) begin
                 timer       <= timer - 1;       // Normal countdown
             end
@@ -167,9 +170,9 @@ module traffic_controller_core (
             next_state = S_ERROR;             // Override: emergency takes priority
         end else begin
             case (current_state)
-                S_NS_GREEN:  if (timer_done) next_state = S_NS_YELLOW;
+                S_NS_GREEN:  if (timer_done && !reload_en) next_state = S_NS_YELLOW;
                 S_NS_YELLOW: if (timer_done) next_state = S_EW_GREEN;
-                S_EW_GREEN:  if (timer_done) next_state = S_EW_YELLOW;
+                S_EW_GREEN:  if (timer_done && !reload_en) next_state = S_EW_YELLOW;
                 S_EW_YELLOW: if (timer_done) next_state = S_NS_GREEN;
                 S_ERROR:     next_state = S_ERROR;  // Stays until reset
                 default:     next_state = S_ERROR;  // Unknown → safe fallback

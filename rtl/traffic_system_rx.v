@@ -34,6 +34,24 @@ module traffic_system_rx #(
     input  wire       emergency_sw,
     input  wire       uart_rx,
 
+    // Pedestrian buttons and indicators
+    input  wire       ped_btn_ns_i,
+    input  wire       ped_btn_ew_i,
+    output wire       ped_ns_req_led_o,
+    output wire       ped_ew_req_led_o,
+
+    // Loop sensors and mode select inputs
+    input  wire       sensor_ns_i,
+    input  wire       sensor_ew_i,
+    input  wire       mode_select_i,
+
+    // Crosswalk buzzer output
+    output wire       buzzer_o,
+
+    // UART transmitter output
+    output wire       uart_tx,
+
+    // Vehicle traffic light outputs
     output wire [2:0] ns_leds,
     output wire [2:0] ew_leds,
     output wire       ped_ns_led,
@@ -81,12 +99,22 @@ module traffic_system_rx #(
         .ns_density_i   (ns_density),
         .ew_density_i   (ew_density),
         .camera_valid_i (camera_valid),
+        .ped_btn_ns_i   (ped_btn_ns_i),
+        .ped_btn_ew_i   (ped_btn_ew_i),
+        .sensor_ns_i    (sensor_ns_i),
+        .sensor_ew_i    (sensor_ew_i),
+        .mode_select_i  (mode_select_i),
         .ns_leds        (ns_leds),
         .ew_leds        (ew_leds),
         .ped_ns_led     (ped_ns_led),
         .ped_ew_led     (ped_ew_led),
+        .ped_ns_req_led_o(ped_ns_req_led_o),
+        .ped_ew_req_led_o(ped_ew_req_led_o),
+        .buzzer_o       (buzzer_o),
+        .timer_duration_o(), // Unused at wrapper level
         .seg_o          (seg_o),
-        .an_o           (an_o)
+        .an_o           (an_o),
+        .uart_tx_o      (uart_tx)
     );
 
 endmodule

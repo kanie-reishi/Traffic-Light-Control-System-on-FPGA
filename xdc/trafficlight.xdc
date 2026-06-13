@@ -63,3 +63,34 @@ set_property IOSTANDARD LVCMOS33 [get_ports {an_o[3]}]
 # rs_rx mapped to uart_rx
 set_property PACKAGE_PIN B18 [get_ports uart_rx]
 set_property IOSTANDARD LVCMOS33 [get_ports uart_rx]
+# rs_tx mapped to uart_tx
+set_property PACKAGE_PIN A18 [get_ports uart_tx]
+set_property IOSTANDARD LVCMOS33 [get_ports uart_tx]
+
+## Pedestrian Push Buttons (Active HIGH, momentary)
+# btnU (Up) for NS
+set_property PACKAGE_PIN T18 [get_ports ped_btn_ns_i]
+set_property IOSTANDARD LVCMOS33 [get_ports ped_btn_ns_i]
+# btnL (Left) for EW
+set_property PACKAGE_PIN W19 [get_ports ped_btn_ew_i]
+set_property IOSTANDARD LVCMOS33 [get_ports ped_btn_ew_i]
+
+## Pedestrian Request Pending Indicators (LEDs 8-9)
+set_property PACKAGE_PIN V13 [get_ports ped_ns_req_led_o]
+set_property IOSTANDARD LVCMOS33 [get_ports ped_ns_req_led_o]
+set_property PACKAGE_PIN V3 [get_ports ped_ew_req_led_o]
+set_property IOSTANDARD LVCMOS33 [get_ports ped_ew_req_led_o]
+
+## Vehicle Loop Sensors (SW1 and SW2, Active HIGH)
+set_property PACKAGE_PIN V16 [get_ports sensor_ns_i]
+set_property IOSTANDARD LVCMOS33 [get_ports sensor_ns_i]
+set_property PACKAGE_PIN W16 [get_ports sensor_ew_i]
+set_property IOSTANDARD LVCMOS33 [get_ports sensor_ew_i]
+
+## Mode Select Switch (SW14, Active HIGH)
+set_property PACKAGE_PIN T1 [get_ports mode_select_i]
+set_property IOSTANDARD LVCMOS33 [get_ports mode_select_i]
+
+## Crosswalk Audible Buzzer (Pmod JA Pin 1)
+set_property PACKAGE_PIN J1 [get_ports buzzer_o]
+set_property IOSTANDARD LVCMOS33 [get_ports buzzer_o]

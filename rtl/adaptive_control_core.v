@@ -86,8 +86,15 @@ module adaptive_timing_logic (
     input  wire        ped_ns_req_i,
     input  wire        ped_ew_req_i,
 
+    // Mode and loop sensor inputs
+    input  wire        mode_select_i,    // 0 = Camera Density, 1 = Loop Sensor Gap-Out
+    input  wire        sensor_ns_i,      // N-S loop sensor
+    input  wire        sensor_ew_i,      // E-W loop sensor
+    input  wire [5:0]  timer_count_i,    // Current countdown timer value
+
     // Computed duration output (to traffic_controller_core)
-    output reg  [5:0]  duration_o
+    output reg  [5:0]  duration_o,
+    output reg         reload_en_o       // Timer reload enable pulse
 );
 
     // =========================================================================
@@ -102,6 +109,7 @@ module adaptive_timing_logic (
     parameter STARVATION_LIMIT = 7'd50;
     parameter MAX_CONSEC_BONUS = 2'd2;
     parameter T_PED_MIN        = 6'd20;
+    parameter EXT_TIME         = 6'd3;   // Extension time step for Gap-Out mode
 
     // =========================================================================
     // State Encoding (mirrors traffic_controller_core)
@@ -120,6 +128,25 @@ module adaptive_timing_logic (
     reg [1:0] ns_consec_max;   // Consecutive cycles N-S got T_GREEN_MAX
     reg [1:0] ew_consec_max;   // Consecutive cycles E-W got T_GREEN_MAX
     reg [4:0] prev_state;      // Previous FSM state (for edge detection)
+    reg [5:0] active_green_timer; // Counts total green phase duration (seconds)
+
+    // =========================================================================
+    // Active Green Timer Logic (Sequential)
+    //   Tracks total elapsed green time for the active phase. Resets on entry
+    //   to a green state, increments every 1Hz tick during green state.
+    // =========================================================================
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            active_green_timer <= 0;
+        end else begin
+            if ((current_state_i == S_NS_GREEN && prev_state != S_NS_GREEN) ||
+                (current_state_i == S_EW_GREEN && prev_state != S_EW_GREEN)) begin
+                active_green_timer <= 0;
+            end else if (tick_1hz && (current_state_i == S_NS_GREEN || current_state_i == S_EW_GREEN)) begin
+                active_green_timer <= active_green_timer + 1;
+            end
+        end
+    end
 
     // =========================================================================
     // Section 1: Wait Timers & Consecutive-Max Counters (Sequential)
@@ -293,10 +320,46 @@ module adaptive_timing_logic (
     end
 
     // =========================================================================
-    // Section 3: Output Assignment
+    // Section 3: Output Assignment with Mode Selection (Gap-Out vs Density)
     // =========================================================================
     always @(*) begin
-        duration_o = final_duration;
+        // Default outputs
+        reload_en_o = 1'b0;
+
+        if (mode_select_i) begin
+            // -----------------------------------------------------------------
+            // Gap-Out Mode (Loop Sensor based)
+            // -----------------------------------------------------------------
+            // 1. Reload enable pulse (depends only on register states: current state and timer)
+            if (current_state_i == S_NS_GREEN && timer_count_i == 0) begin
+                if (sensor_ns_i && active_green_timer < T_GREEN_MAX) begin
+                    reload_en_o = 1'b1;
+                end
+            end else if (current_state_i == S_EW_GREEN && timer_count_i == 0) begin
+                if (sensor_ew_i && active_green_timer < T_GREEN_MAX) begin
+                    reload_en_o = 1'b1;
+                end
+            end
+
+            // 2. Duration output (depends on next_state_i for initial loads, and reload_en_o for extensions)
+            if (reload_en_o) begin
+                duration_o = EXT_TIME;
+            end else begin
+                case (next_state_i)
+                    S_NS_GREEN:  duration_o = ped_ns_req_i ? T_PED_MIN : T_GREEN_MIN;
+                    S_EW_GREEN:  duration_o = ped_ew_req_i ? T_PED_MIN : T_GREEN_MIN;
+                    S_NS_YELLOW, 
+                    S_EW_YELLOW: duration_o = T_YELLOW_FIXED;
+                    default:     duration_o = T_GREEN_BASE;
+                endcase
+            end
+        end else begin
+            // -----------------------------------------------------------------
+            // Camera Density Mode (Original Pre-calculation)
+            // -----------------------------------------------------------------
+            duration_o  = final_duration;
+            reload_en_o = 1'b0;
+        end
     end
 
 endmodule
